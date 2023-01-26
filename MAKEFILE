@@ -1,0 +1,31 @@
+asm	= masm
+link	= link
+exe2com = exe2bin
+
+recdisk.com  :	 recdisk.exe
+		 $(exe2com) $** $@
+
+recdisk.exe  :	 recdisk.obj recfile.obj maketab.obj garbage.obj missfile.obj comptab.obj recboot.obj
+		 $(link) /M /NOI $**, $*;
+
+recdisk.obj  :	 recdisk.asm
+		 $(asm)  /Ml /w2 $*;
+
+recfile.obj  :	 recfile.asm
+		 $(asm)  /Ml /w2 $*;
+
+maketab.obj  :	 maketab.asm
+		 $(asm)  /Ml /w2 $*;
+
+garbage.obj  :	 garbage.asm
+		 $(asm)  /Ml /w2 $*;
+
+comptab.obj  :	 comptab.asm
+		 $(asm)  /Ml /w2 $*;
+
+missfile.obj :	 missfile.asm
+		 $(asm)  /Ml /w2 $*;
+
+recboot.obj  :	 recboot.asm
+		 $(asm)  /Ml /w2 $*;
+

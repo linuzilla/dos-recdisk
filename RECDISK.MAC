@@ -1,0 +1,73 @@
+; Standard Macros - Version 1.0 - for Microsoft Macro Assembler 5.10
+; (C) Copyright Microsoft Corporation, 1987.
+
+.XCREF
+.XLIST
+IF1
+
+IntDOS	MACRO	fcode
+	IFNB	<fcode>
+	   IF	   (fcode AND 0FF00h) EQ 0
+	      mov     ah, fcode
+	   ELSE
+	      mov     ax, fcode
+	   ENDIF
+	   int	   21h
+	ELSE
+	   ERR	   Unknow function call
+	ENDIF
+	ENDM
+
+PRINT	MACRO	message
+	IFNB	<message>
+	   lea	dx, message
+	ENDIF
+	mov	ah, 09
+	int	21h
+	ENDM
+;
+UpCASE	MACRO	register
+	IFNB	<register>
+	   and	   register, 0DFh
+	ELSE
+	   and	   al, 0DFh
+	ENDIF
+	ENDM
+;
+LwCASE	MACRO	register
+	IFNB	<register>
+	   or	   register, 020h
+	ELSE
+	   or	   al, 020h
+	ENDIF
+	ENDM
+;
+INKEY	MACRO
+	xor	ah, ah
+	int	16h
+	ENDM
+
+
+ENDIF
+
+FileTable	STRUC
+    tag 	DB	?
+    Parent	DW	?
+    Child	DW	?
+    Filename	DB	13 DUP(?)
+FileTable	ENDS
+
+VERSION 	EQU	'0.19'
+
+PRIVATE 	EQU	0	; Set Private off
+;  PRIVATE	   EQU	   1	   ; Set Private on
+
+IF   PRIVATE
+RecordFileATTR	=	21h
+ELSE
+RecordFileATTR	=	21h
+ENDIF
+
+.CREF
+.LIST
+
